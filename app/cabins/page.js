@@ -1,5 +1,5 @@
 // import {Suspense} from 'react'
-import Counter from '../components/counter'
+import Counter from '../_components/counter'
 
 export default async function Page() {
   const users = await fetch(
