@@ -3,7 +3,12 @@ import Navigation from '@/app/_components/Navigation'
 import '@/app/_styles/globals.css'
 
 export const metadata = {
-  title: 'The Wild Oasis',
+  title: {
+    template: '%s – The Wild Oasis',
+    default: 'Welcome to The Wild Oasis',
+  },
+  description:
+    "Luxurious Cabin hotel, located in the heart of the forest where you'll explore the beauty of nature in the purest environment",
 }
 
 export default function RootLayout({children}) {
