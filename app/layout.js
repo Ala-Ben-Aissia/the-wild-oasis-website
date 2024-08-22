@@ -1,5 +1,3 @@
-import Logo from '@/app/_components/Logo'
-import Navigation from '@/app/_components/Navigation'
 import '@/app/_styles/globals.css'
 import {Josefin_Sans} from 'next/font/google'
 import Header from './_components/Header'
