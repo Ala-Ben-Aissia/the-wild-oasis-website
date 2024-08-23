@@ -1,5 +1,4 @@
 import about1 from '@/public/about-1.jpg'
-import about2 from '@/public/about-2.jpg'
 import Image from 'next/image'
 
 export const metadata = {
