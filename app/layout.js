@@ -24,9 +24,9 @@ export default function RootLayout({children}) {
       >
         <Header />
         <div
-          className='flex-1 px-8 py-12' /* to vertically (flex-col) occupy the rest of the layout */
+          className='flex-1 px-8 py-12 grid' /* to vertically (flex-col) occupy the rest of the layout */
         >
-          <main className='max-w-7xl mx-auto'>{children}</main>
+          <main className='max-w-7xl mx-auto w-full'>{children}</main>
         </div>
       </body>
     </html>
