@@ -7,7 +7,6 @@ export const metadata = {
 }
 
 export default function Page() {
-  throw new Error('Error in the root level')
   return (
     <div>
       <h1 className='text-4xl mb-5 text-accent-400 font-medium'>
