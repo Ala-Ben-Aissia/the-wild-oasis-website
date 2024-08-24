@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
 @layer components {
   .spinner {
     margin: 3.2rem auto 1.6rem;
@@ -13,7 +12,7 @@
     border-right-color: theme('colors.primary.200');
     animation: rotate 1s infinite linear;
   }
-  
+
   .spinner-mini {
     margin: 0;
     width: 20px;
@@ -23,7 +22,7 @@
     border-right-color: transparent;
     animation: rotate 1s infinite linear;
   }
-  
+
   @keyframes rotate {
     to {
       transform: rotate(1turn);
@@ -31,11 +30,10 @@
   }
 }
 
-*/
 /* For data picker */
-/* .rdp {
+.rdp {
   --rdp-cell-size: 32px !important;
   --rdp-accent-color: theme('colors.accent.500') !important;
   --rdp-background-color: theme('colors.accent.600') !important;
   margin: 0 !important;
-} */
+}
