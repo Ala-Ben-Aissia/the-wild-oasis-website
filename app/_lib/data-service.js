@@ -8,7 +8,9 @@ import {supabase} from './supabase'
 export async function getCabin(id) {
   const {data, error} = await supabase
     .from('cabins')
-    .select('*')
+    .select(
+      'id, name, maxCapacity, image, description, discount, regularPrice, createdAt',
+    )
     .eq('id', id)
     .single()
 
