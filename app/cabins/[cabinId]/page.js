@@ -1,4 +1,4 @@
-import {getCabin} from '@/app/_lib/data-service'
+import {getCabin, getCabins} from '@/app/_lib/data-service'
 import {
   EyeSlashIcon,
   MapPinIcon,
@@ -8,24 +8,22 @@ import Image from 'next/image'
 
 export async function generateMetadata({params: {cabinId}}) {
   const cabin = await getCabin(cabinId)
-
   return {
     title: 'Cabin ' + cabin.name,
   }
 }
 
+// Return a list of `params` to populate the [cabinId] dynamic segment
+export async function generateStaticParams() {
+  const cabins = await getCabins()
+  return cabins.map((cabin) => ({cabinId: String(cabin.id)}))
+}
+
+// Multiple versions of this page will be statically generated using the `params` returned by `generateStaticParams`
 export default async function Page({params: {cabinId}}) {
   const cabin = await getCabin(cabinId)
 
-  const {
-    id,
-    name,
-    maxCapacity,
-    regularPrice,
-    discount,
-    image,
-    description,
-  } = cabin
+  const {name, maxCapacity, image, description} = cabin
 
   return (
     <div className='max-w-6xl mx-auto mt-8'>
