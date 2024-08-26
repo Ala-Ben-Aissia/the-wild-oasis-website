@@ -9,7 +9,7 @@ export async function getCabin(id) {
   const {data, error} = await supabase
     .from('cabins')
     .select(
-      'id, name, maxCapacity, image, description, discount, regularPrice, createdAt',
+      'createdAt, name, maxCapacity, regularPrice, discount, description, image',
     )
     .eq('id', id)
     .single()
