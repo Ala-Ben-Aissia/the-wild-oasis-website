@@ -6,6 +6,9 @@ export const metadata = {
   title: 'Cabins',
 }
 
+// export const revalidate = 0 // make this /cabins route dynamic
+export const revalidate = 3600 // ISR (refetch cabins every 1 hour)
+
 export default function Page() {
   return (
     <div>

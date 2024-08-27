@@ -1,7 +1,12 @@
+import {unstable_noStore as noStore} from 'next/cache'
 import {getCabins} from '../_lib/data-service'
 import CabinCard from './CabinCard'
 
 export default async function CabinList() {
+  // noStore() // cabins data won't be cached
+  // This will make the entire /cabins page renders dynamically
+  // in case of PPR (in /cabins Page) the entire Page will be static (static shell) and only this CabinList component will be the dynamic hole (wrapped within the React suspense boundaries)
+
   const cabins = await getCabins()
 
   if (!cabins.length) return null
