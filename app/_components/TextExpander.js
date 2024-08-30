@@ -18,7 +18,7 @@ function TextExpander({children}) {
       >
         {isExpanded ? 'Show less' : 'Show more'}
       </button>
-      <Logo />{' '}
+      {/* <Logo />{' '} */}
       {/* Logo is now a CC since it is imported by a CC textExpander */}
     </span>
   )
