@@ -9,7 +9,9 @@ export const metadata = {
 // export const revalidate = 0 // make this /cabins route dynamic
 export const revalidate = 3600 // ISR (refetch cabins every 1 hour)
 
-export default function Page() {
+export default function Page({searchParams}) {
+  const filter = searchParams?.capacity ?? 'all'
+
   return (
     <div>
       <h1 className='text-4xl mb-5 text-accent-400 font-medium'>
@@ -26,7 +28,7 @@ export default function Page() {
       </p>
 
       <Suspense fallback={<Spinner />}>
-        <CabinList />
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   )
