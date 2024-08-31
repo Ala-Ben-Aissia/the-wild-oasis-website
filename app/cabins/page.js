@@ -1,5 +1,6 @@
 import {Suspense} from 'react'
 import CabinList from '../_components/CabinList'
+import Filter from '../_components/Filter'
 import Spinner from '../_components/Spinner'
 
 export const metadata = {
@@ -10,6 +11,10 @@ export const metadata = {
 export const revalidate = 3600 // ISR (refetch cabins every 1 hour)
 
 export default function Page({searchParams}) {
+  // This component is no longer static since it now depends on the searchParams which is unknown in build-time, but ISR can still be benificial for static parts (immediately rendering the static shell part)
+
+  // whenever navigating to a new url with new searchParams, this server component will re-render
+
   const filter = searchParams?.capacity ?? 'all'
 
   return (
@@ -26,8 +31,8 @@ export default function Page({searchParams}) {
         home. The perfect spot for a peaceful, calm vacation. Welcome
         to paradise.
       </p>
-
-      <Suspense fallback={<Spinner />}>
+      <Filter />
+      <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
       </Suspense>
     </div>

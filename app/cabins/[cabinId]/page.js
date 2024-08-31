@@ -21,6 +21,7 @@ export async function generateStaticParams() {
 }
 
 // Multiple versions of this page will be statically generated using the `params` returned by `generateStaticParams`
+
 export default async function Page({params: {cabinId}}) {
   const cabin = await getCabin(cabinId)
 
