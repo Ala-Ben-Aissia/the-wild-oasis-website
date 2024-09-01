@@ -1,5 +1,12 @@
+import DateSelector from '@/app/_components/DateSelector'
+import ReservationForm from '@/app/_components/ReservationForm'
 import TextExpander from '@/app/_components/TextExpander'
-import {getCabin, getCabins} from '@/app/_lib/data-service'
+import {
+  getBookedDatesByCabinId,
+  getCabin,
+  getCabins,
+  getSettings,
+} from '@/app/_lib/data-service'
 import {
   EyeSlashIcon,
   MapPinIcon,
@@ -76,9 +83,13 @@ export default async function Page({params: {cabinId}}) {
       </div>
 
       <div>
-        <h2 className='text-5xl font-semibold text-center'>
-          Reserve today. Pay on arrival.
+        <h2 className='text-5xl font-semibold text-center text-accent-400 mb-10'>
+          Reserve {name} today. Pay on arrival.
         </h2>
+        <div className='grid grid-cols-2 min-w-max -translate-x-32 border border-primary-800 min-h-[400px]'>
+          <DateSelector />
+          <ReservationForm />
+        </div>
       </div>
     </div>
   )
