@@ -9,30 +9,27 @@ function isAlreadyBooked(range, datesArr) {
     range.from &&
     range.to &&
     datesArr.some((date) =>
-      isWithinInterval(date, {start: range.from, end: range.to})
+      isWithinInterval(date, {start: range.from, end: range.to}),
     )
   )
 }
 
-function DateSelector() {
-  // CHANGE
-  const regularPrice = 23
-  const discount = 23
-  const numNights = 23
-  const cabinPrice = 23
-  const range = {from: null, to: null}
+function DateSelector({cabin, settings, bookedDates}) {
+  const {regularPrice, discount, numNights} = cabin
+  const range = {
+    from: bookedDates[0],
+    to: bookedDates.at(-1),
+  }
 
-  // SETTINGS
-  const minBookingLength = 1
-  const maxBookingLength = 23
+  const {minBookingNights, maxBookingNights} = settings
 
   return (
     <div className='flex flex-col justify-between'>
       <DayPicker
-        className='rdp pt-6 place-self-center'
+        className='rdp pt-6 place-self-center scale-90'
         mode='range'
-        min={minBookingLength + 1}
-        max={maxBookingLength}
+        min={minBookingNights + 1}
+        max={maxBookingNights}
         startMonth={new Date()}
         endMonth={new Date(new Date().getFullYear() + 5, 11)}
         disabled={{
@@ -78,7 +75,7 @@ function DateSelector() {
                   Total
                 </span>{' '}
                 <span className='text-2xl font-semibold'>
-                  ${cabinPrice}
+                  ${regularPrice - discount}
                 </span>
               </p>
             </>

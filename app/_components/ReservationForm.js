@@ -1,7 +1,5 @@
-export default function ReservationForm() {
-  // CHANGE
-  const maxCapacity = 23
-
+export default function ReservationForm({cabin}) {
+  const {maxCapacity} = cabin
   return (
     <div className='scale-[1.01]'>
       <div className='bg-primary-800 text-primary-300 px-16 py-2 flex justify-between items-center'>
@@ -36,7 +34,7 @@ export default function ReservationForm() {
                 <option value={x} key={x}>
                   {x} {x === 1 ? 'guest' : 'guests'}
                 </option>
-              )
+              ),
             )}
           </select>
         </div>
