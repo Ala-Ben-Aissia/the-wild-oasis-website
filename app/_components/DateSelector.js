@@ -3,6 +3,7 @@
 import {isWithinInterval} from 'date-fns'
 import {DayPicker} from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
+import {useRange} from '../contexts/ReservationContext'
 
 function isAlreadyBooked(range, datesArr) {
   return (
@@ -15,11 +16,11 @@ function isAlreadyBooked(range, datesArr) {
 }
 
 function DateSelector({cabin, settings, bookedDates}) {
-  const {regularPrice, discount, numNights} = cabin
-  const range = {
-    from: bookedDates[0],
-    to: bookedDates.at(-1),
-  }
+  const {range, setRange, resetRange} = useRange()
+
+  const {regularPrice, discount} = cabin
+
+  // console.log({range: differenceInDays(range.to, range.from) + 1})
 
   const {minBookingNights, maxBookingNights} = settings
 
@@ -28,6 +29,8 @@ function DateSelector({cabin, settings, bookedDates}) {
       <DayPicker
         className='rdp pt-6 place-self-center scale-90'
         mode='range'
+        onSelect={setRange}
+        selected={range}
         min={minBookingNights + 1}
         max={maxBookingNights}
         startMonth={new Date()}
@@ -41,10 +44,14 @@ function DateSelector({cabin, settings, bookedDates}) {
         classNames={{
           // chevron: 'fill-primary-400',
           // today: 'text-accent-300 line-through',
-          // selected: 'text-accent-500',
-          range_start: 'bg-accent-500 rounded-full',
-          range_middle: 'bg-transparent text-accent-400',
-          range_end: 'bg-accent-400 rounded-full',
+          // selected: `${
+          //   getDefaultClassNames().selected
+          // } border-red-400`,
+          range_start: 'bg-accent-500 rounded-l-full',
+          // range_middle: `${
+          //   getDefaultClassNames().range_middle
+          // } border border-accent-500`,
+          range_end: 'bg-accent-500 rounded-r-full',
         }}
       />
 
@@ -65,10 +72,10 @@ function DateSelector({cabin, settings, bookedDates}) {
             )}
             <span className=''>/night</span>
           </p>
-          {numNights ? (
+          {maxBookingNights ? (
             <>
               <p className='bg-accent-600 px-3 py-2 text-2xl'>
-                <span>&times;</span> <span>{numNights}</span>
+                <span>&times;</span> <span>{maxBookingNights}</span>
               </p>
               <p>
                 <span className='text-lg font-bold uppercase'>
@@ -85,7 +92,7 @@ function DateSelector({cabin, settings, bookedDates}) {
         {range.from || range.to ? (
           <button
             className='border border-primary-800 py-2 px-4 text-sm font-semibold'
-            onClick={() => resetRange()}
+            onClick={resetRange}
           >
             Clear
           </button>
