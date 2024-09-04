@@ -13,5 +13,9 @@ export const {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
-  callbacks: {},
+  callbacks: {
+    async authorized({auth, request}) {
+      return !!auth?.user
+    },
+  },
 })
