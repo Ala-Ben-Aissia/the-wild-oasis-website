@@ -18,4 +18,7 @@ export const {
       return !!auth?.user
     },
   },
+  pages: {
+    signIn: '/login',
+  },
 })
