@@ -27,6 +27,7 @@ export const {
         }
         return true
       } catch (e) {
+        console.log({SignInError: e})
         return false
       }
     },
