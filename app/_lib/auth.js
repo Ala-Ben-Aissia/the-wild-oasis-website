@@ -19,7 +19,7 @@ export const {
       return !!auth?.user
     },
     async signIn({user}) {
-      // runs before the signin process (after the user submits his credentials and before actually being signed in, like a middleware)
+      // runs before the signin process completes (after the user submits his credentials and before actually being signed in, like a middleware)
       try {
         const existentGuest = await getGuest(user.email)
         if (!existentGuest) {
@@ -32,9 +32,9 @@ export const {
     },
     async session({session}) {
       // runs after the sign in callback
-      // session === await auth
+      // session === await auth()
       const guest = await getGuest(session.user.email) // db
-      session.user.guestId = guest.id // add guestId property to the session user
+      session.user.guestId = guest.id // add guestId to the session user
       return session
     },
   },
