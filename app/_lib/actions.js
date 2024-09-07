@@ -44,6 +44,7 @@ export async function deleteReservation(bookingId) {
   }
 
   await deleteBooking(bookingId)
+  // await new Promise((res) => setTimeout(res, 2000))
 
   revalidatePath('/account/reservations')
 }
