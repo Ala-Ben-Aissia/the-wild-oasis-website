@@ -20,6 +20,10 @@ export const metadata = {
 export default function RootLayout({children}) {
   return (
     <html lang='en'>
+      {/* <head>
+        <script defer src='http://localhost:8097'></script>
+      </head> 
+      react-devtools for safari (run react-devtools command before use) */}
       <body
         className={`${josefin.className} antialiased bg-primary-950 text-primary-100 min-h-screen flex flex-col`}
       >
