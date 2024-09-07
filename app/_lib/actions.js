@@ -1,8 +1,15 @@
 'use server'
 
 import {revalidatePath} from 'next/cache'
+import {redirect} from 'next/navigation'
 import {auth, signIn, signOut} from './auth'
-import {deleteBooking, getBooking, updateGuest} from './data-service'
+import {
+  deleteBooking,
+  getBooking,
+  getGuest,
+  updateBooking,
+  updateGuest,
+} from './data-service'
 
 export async function signInAction() {
   await signIn('google', {redirectTo: '/account'})
@@ -24,6 +31,14 @@ export async function updateProfile(id, formData) {
   const regex = /^[a-zA-Z0-9]{6,12}$/
   if (!regex.test(nationalID))
     throw new Error('Please provide a valid national ID')
+
+  const guest = await getGuest(session.user.email)
+  if (
+    nationalID == guest.nationalID &&
+    country == guest.nationality
+  ) {
+    return
+  }
 
   await updateGuest(id, {
     nationality: country,
@@ -54,4 +69,28 @@ export async function deleteReservation(bookingId) {
   // await new Promise((res) => setTimeout(res, 2000))
 
   revalidatePath('/account/reservations')
+}
+
+export async function updateBookingAction(formData) {
+  const session = await auth()
+  const bookingId = formData.get('bookingId')
+  const observations = formData.get('observations')
+  const numGuests = formData.get('numGuests')
+  const booking = await getBooking(bookingId)
+
+  if (!session)
+    throw new Error('You must log in to perform this action!')
+
+  if (session.user.guestId !== booking.guestId)
+    throw new Error('You are not allowed to update this reservation!')
+
+  if (
+    numGuests == booking.numGuests &&
+    observations == booking.observations
+  )
+    return
+  await updateBooking(bookingId, {numGuests, observations})
+
+  revalidatePath(`/account/reservations/edit/${bookingId}`)
+  redirect('/account/reservations')
 }
