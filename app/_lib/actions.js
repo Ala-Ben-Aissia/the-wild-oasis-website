@@ -42,6 +42,12 @@ export async function deleteReservation(bookingId) {
   if (booking.guestId !== session.user.guestId) {
     throw new Error('You are not allowed to delete this reservation!')
   }
+  /* 
+    this check is so important, if not implemented, any user can delete other user's bookings and here are the steps to achieve that:
+    1. deletes to his own booking
+    2. in the network tab, he copies the POST request as cURL
+    3. change the booking id ( --data-raw '[410]') to any value
+  */
 
   await deleteBooking(bookingId)
   // await new Promise((res) => setTimeout(res, 2000))
