@@ -47,6 +47,7 @@ export async function deleteReservation(bookingId) {
     1. deletes to his own booking
     2. in the network tab, he copies the POST request as cURL
     3. change the booking id ( --data-raw '[410]') to any value
+    => This scenario is a common security concern known as Insecure Direct Object Reference (IDOR)
   */
 
   await deleteBooking(bookingId)
