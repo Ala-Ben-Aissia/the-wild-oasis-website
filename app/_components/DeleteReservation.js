@@ -2,15 +2,15 @@
 
 import {TrashIcon} from '@heroicons/react/24/solid'
 import * as React from 'react'
-import {deleteReservation} from '../_lib/actions'
 import SpinnerMini from './SpinnerMini'
 
-function DeleteReservation({bookingId}) {
+function DeleteReservation({bookingId, onDelete}) {
   const [isPending, startTransition] = React.useTransition()
   // This hook lets you update the state without blocking the UI
 
   function handleDelete() {
-    startTransition(() => deleteReservation(bookingId))
+    window.alert('Are you sure you want to delete this reservation ?')
+    startTransition(() => onDelete(bookingId))
   }
 
   return (
