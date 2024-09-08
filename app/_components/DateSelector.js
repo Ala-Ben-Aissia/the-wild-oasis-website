@@ -1,6 +1,12 @@
 'use client'
 
-import {isWithinInterval} from 'date-fns'
+import {
+  differenceInDays,
+  isPast,
+  isSameDay,
+  isWithinInterval,
+} from 'date-fns'
+import React from 'react'
 import {DayPicker} from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
 import {useRange} from '../contexts/ReservationContext'
@@ -20,9 +26,23 @@ function DateSelector({cabin, settings, bookedDates}) {
 
   const {regularPrice, discount} = cabin
 
-  // console.log({range: differenceInDays(range.to, range.from) + 1})
-
   const {minBookingNights, maxBookingNights} = settings
+
+  const displayRange = React.useMemo(
+    () =>
+      isAlreadyBooked(range, bookedDates)
+        ? {from: undefined, to: undefined}
+        : range,
+    [range, bookedDates],
+  )
+
+  const numNights = differenceInDays(range.to, range.from) + 1
+
+  const cabinPrice = numNights * (regularPrice - discount)
+
+  React.useEffect(() => {
+    setRange(displayRange)
+  }, [displayRange, setRange])
 
   return (
     <div className='flex flex-col justify-between'>
@@ -30,14 +50,19 @@ function DateSelector({cabin, settings, bookedDates}) {
         className='rdp pt-6 place-self-center scale-90'
         mode='range'
         onSelect={setRange}
-        selected={range}
+        selected={displayRange}
         min={minBookingNights + 1}
         max={maxBookingNights}
         startMonth={new Date()}
         endMonth={new Date(new Date().getFullYear() + 5, 11)}
-        disabled={{
-          before: new Date().setDate(new Date().getDate() + 1),
-          // before: new Date(),
+        // disabled={{
+        //   before: new Date().setDate(new Date().getDate() + 1),
+        // }}
+        disabled={(cellDate) => {
+          return (
+            isPast(cellDate) ||
+            bookedDates.some((date) => isSameDay(cellDate, date))
+          )
         }}
         captionLayout='dropdown'
         numberOfMonths={2}
@@ -72,17 +97,17 @@ function DateSelector({cabin, settings, bookedDates}) {
             )}
             <span className=''>/night</span>
           </p>
-          {maxBookingNights ? (
+          {numNights && displayRange.from && displayRange.to ? (
             <>
               <p className='bg-accent-600 px-3 py-2 text-2xl'>
-                <span>&times;</span> <span>{maxBookingNights}</span>
+                <span>&times;</span> <span>{numNights}</span>
               </p>
               <p>
                 <span className='text-lg font-bold uppercase'>
                   Total
                 </span>{' '}
                 <span className='text-2xl font-semibold'>
-                  ${regularPrice - discount}
+                  ${cabinPrice}
                 </span>
               </p>
             </>
