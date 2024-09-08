@@ -54,7 +54,7 @@ export default async function Page({params: {bookingId}}) {
 
         <div className='flex justify-end items-center gap-6'>
           <SubmitButton
-            resourceName='reservation'
+            content='Update reservation'
             loadingIndicator='Updating reservation...'
           />
         </div>

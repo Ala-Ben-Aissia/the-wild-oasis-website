@@ -54,7 +54,7 @@ export default function UpdateProfileForm({guest, children}) {
 
       <div className='flex justify-end items-center gap-6'>
         <SubmitButton
-          resourceName='profile'
+          content='Update profile'
           loadingIndicator='Updating profile...'
         />
       </div>
