@@ -25,6 +25,21 @@ export async function getCabin(id) {
   return data
 }
 
+export async function getCabinDescription(id) {
+  const {data, error} = await supabase
+    .from('cabins')
+    .select('description')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    console.error(error)
+    notFound()
+  }
+
+  return data
+}
+
 export async function getCabinPrice(id) {
   const {data, error} = await supabase
     .from('cabins')

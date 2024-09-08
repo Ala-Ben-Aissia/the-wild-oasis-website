@@ -1,7 +1,11 @@
 import Reservation from '@/app/_components/Reservation'
 import Spinner from '@/app/_components/Spinner'
 import TextExpander from '@/app/_components/TextExpander'
-import {getCabin, getCabins} from '@/app/_lib/data-service'
+import {
+  getCabin,
+  getCabinDescription,
+  getCabins,
+} from '@/app/_lib/data-service'
 import {
   EyeSlashIcon,
   MapPinIcon,
@@ -28,7 +32,8 @@ export async function generateStaticParams() {
 export default async function Page({params: {cabinId}}) {
   const cabin = await getCabin(cabinId)
 
-  const {name, maxCapacity, image, description} = cabin
+  const {name, maxCapacity, image} = cabin
+  const {description} = await getCabinDescription(cabinId)
 
   return (
     <div className='max-w-6xl mx-auto mt-8'>
