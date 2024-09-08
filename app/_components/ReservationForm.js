@@ -1,5 +1,29 @@
+'use client'
+
+import {differenceInDays} from 'date-fns'
+import {createReservationAction} from '../_lib/actions'
+import {useRange} from '../contexts/ReservationContext'
+import SubmitButton from './SubmitButton'
+
 export default function ReservationForm({cabin, user}) {
-  const {maxCapacity} = cabin
+  const {maxCapacity, regularPrice, discount} = cabin
+  const {
+    range: {from: startDate, to: endDate},
+    resetRange,
+  } = useRange()
+
+  const cabinPrice = regularPrice - discount
+  const numNights = differenceInDays(endDate, startDate)
+  const totalPrice = numNights * cabinPrice
+
+  const bookingData = {
+    cabinId: cabin.id,
+    startDate,
+    endDate,
+    totalPrice,
+    numNights,
+    cabinPrice,
+  }
 
   return (
     <div className='scale-[1.01]'>
@@ -18,7 +42,14 @@ export default function ReservationForm({cabin, user}) {
         </div>
       </div>
 
-      <form className='bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col'>
+      <form
+        action={(formData) =>
+          createReservationAction(bookingData, formData).then(
+            resetRange,
+          )
+        }
+        className='bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col'
+      >
         <div className='space-y-2'>
           <label htmlFor='numGuests'>How many guests?</label>
           <select
@@ -57,9 +88,12 @@ export default function ReservationForm({cabin, user}) {
             Start by selecting dates
           </p>
 
-          <button className='bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300'>
-            Reserve now
-          </button>
+          {startDate && endDate && (
+            <SubmitButton
+              content='Reserve'
+              loadingIndicator='Reserving...'
+            />
+          )}
         </div>
       </form>
     </div>

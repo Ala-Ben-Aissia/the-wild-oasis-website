@@ -4,6 +4,7 @@ import {revalidatePath} from 'next/cache'
 import {redirect} from 'next/navigation'
 import {auth, signIn, signOut} from './auth'
 import {
+  createBooking,
   deleteBooking,
   getBooking,
   getGuest,
@@ -69,6 +70,7 @@ export async function deleteReservation(bookingId) {
   // await new Promise((res) => setTimeout(res, 2000))
 
   revalidatePath('/account/reservations')
+  revalidatePath(`/cabins/${booking.cabinId}`)
 }
 
 export async function updateBookingAction(formData) {
@@ -93,4 +95,29 @@ export async function updateBookingAction(formData) {
 
   revalidatePath(`/account/reservations/edit/${bookingId}`)
   redirect('/account/reservations')
+}
+
+export async function createReservationAction(bookingData, formData) {
+  const session = await auth()
+  const observations = formData.get('observations').slice(0, 500)
+  const numGuests = formData.get('numGuests')
+
+  if (!session)
+    throw new Error('You must log in to perform this action!')
+
+  if (!bookingData.startDate || !bookingData.endDate) return
+
+  await createBooking({
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests,
+    observations,
+    extrasPrice: 0,
+    status: 'unconfirmed',
+    hasBreakfast: false,
+    isPaid: false,
+  })
+
+  revalidatePath(`/cabins/${bookingData.cabinId}`)
+  redirect('/thank-you')
 }

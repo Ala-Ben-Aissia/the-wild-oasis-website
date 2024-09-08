@@ -36,7 +36,8 @@ function DateSelector({cabin, settings, bookedDates}) {
     [range, bookedDates],
   )
 
-  const numNights = differenceInDays(range.to, range.from) + 1
+  const numNights = differenceInDays(range.to, range.from)
+  // X nights => X+1 days => pay X nights
 
   const cabinPrice = numNights * (regularPrice - discount)
 
