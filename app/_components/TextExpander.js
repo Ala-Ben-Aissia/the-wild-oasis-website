@@ -1,13 +1,12 @@
 'use client'
 
 import {useState} from 'react'
-import Logo from './Logo'
 
 function TextExpander({children}) {
   const [isExpanded, setIsExpanded] = useState(false)
   const displayText = isExpanded
     ? children
-    : children.split(' ').slice(0, 40).join(' ') + '...'
+    : children?.split(' ').slice(0, 40).join(' ') + '...'
 
   return (
     <span>
